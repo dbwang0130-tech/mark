@@ -1,0 +1,6 @@
+build/
+MarkdownCore/.build/
+MarkdownCore/.swiftpm/
+Mark.xcodeproj/
+.DS_Store
+dist/

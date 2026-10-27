@@ -1,0 +1,54 @@
+name: Mark
+options:
+  bundleIdPrefix: com.markdownext
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "Developer ID Application"
+    DEVELOPMENT_TEAM: 586LZ975EV
+    ENABLE_HARDENED_RUNTIME: YES
+    DEAD_CODE_STRIPPING: YES
+packages:
+  MarkdownCore:
+    path: MarkdownCore
+targets:
+  Mark:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+        excludes: [AppIcon.icon]
+      - path: App/AppIcon.icon
+        type: file
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.markdownext.Mark
+        INFOPLIST_FILE: App/Info.plist
+        CODE_SIGN_ENTITLEMENTS: App/App.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    dependencies:
+      - package: MarkdownCore
+        product: MarkdownCore
+      - target: MarkQuickLook
+        embed: true
+        codeSign: true
+  MarkQuickLook:
+    type: app-extension
+    platform: macOS
+    sources: [QuickLook]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.markdownext.Mark.QuickLook
+        INFOPLIST_FILE: QuickLook/Info.plist
+        CODE_SIGN_ENTITLEMENTS: QuickLook/QuickLook.entitlements
+    dependencies:
+      - package: MarkdownCore
+        product: MarkdownCore
+      - sdk: Quartz.framework
